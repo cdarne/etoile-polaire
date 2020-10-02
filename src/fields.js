@@ -72,5 +72,6 @@ export default {
     "Unfulfilled quantity",
     "Variant title",
     "Vendor"
-  ]
+  ],
+  "Order / Line items / Custom attributes": ["Key", "Value"]
 };
