@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from "react";
 
-import { ChoiceList } from "@shopify/polaris";
+import { ChoiceList, Stack } from "@shopify/polaris";
 
 export default function FieldChoiceList(props) {
   const [selected, setSelected] = useState([]);
@@ -12,12 +12,24 @@ export default function FieldChoiceList(props) {
       helpText: "This is the " + field + " field."
     };
   });
+  const half = Math.ceil(choices.length / 2);    
+  const firstHalf = choices.splice(0, half)
+  const secondHalf = choices.splice(-half)
+
   return (
-    <ChoiceList
-      allowMultiple
-      choices={choices}
-      selected={selected}
-      onChange={handleChange}
-    />
+    <Stack wrap={false} distribution="fill">
+      <ChoiceList
+        allowMultiple
+        choices={firstHalf}
+        selected={selected}
+        onChange={handleChange}
+      />
+      <ChoiceList
+        allowMultiple
+        choices={secondHalf}
+        selected={selected}
+        onChange={handleChange}
+      />
+    </Stack>
   );
 }
