@@ -44,7 +44,7 @@ export default function ReportEditPage() {
 
 function ReportFieldSelection() {
   const fieldSections = Object.entries(Fields).map(([section, fields]) => (
-    <FieldSection title={section} fields={fields} />
+    <FieldSection title={section} fields={fields} key={section} />
   ));
 
   return (
