@@ -16,7 +16,7 @@ export default function FieldSection(props) {
 
   return (
     <Stack vertical>
-      <Stack>
+      <Stack alignment="center">
         <Button onClick={handleToggle}>{props.title}</Button>
         <Tag>{selectionHint}</Tag>
       </Stack>

@@ -7,7 +7,8 @@ import {
   PageActions,
   TextField,
   Tag,
-  Link
+  Link,
+  Stack
 } from "@shopify/polaris";
 
 import FieldSection from "./FieldSection";
@@ -83,14 +84,16 @@ function ReportSettings(props) {
         <TextField label="Name" value={props.name} onChange={props.onChange} />
       </Card.Section>
       <Card.Section title="File" actions={[{ content: "Edit" }]}>
-        <p>
-          <span>Format: </span>
-          <Tag>Excel</Tag>
-        </p>
-        <p>
-          <span>Filename: </span>
-          <Tag>{fileName}</Tag>
-        </p>
+        <Stack vertical>
+          <p>
+            <span>Format: </span>
+            <Tag>Excel</Tag>
+          </p>
+          <p>
+            <span>Filename: </span>
+            <Tag>{fileName}</Tag>
+          </p>
+        </Stack>
       </Card.Section>
       <Card.Section title="Notification" actions={[{ content: "Edit" }]}>
         <p>cedric.darne@gmail.com</p>
