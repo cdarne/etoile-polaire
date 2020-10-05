@@ -1,18 +1,27 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 
-import { Button, Stack, Collapsible } from "@shopify/polaris";
+import { Button, Stack, Collapsible, Tag } from "@shopify/polaris";
 
 import FieldChoiceList from "./FieldChoiceList";
 
 export default function FieldSection(props) {
   const [active, setActive] = useState(false);
   const handleToggle = useCallback(() => setActive((active) => !active), []);
+  
+  const [selected, setSelected] = useState([]);
+  const handleFieldSelection = useCallback((value) => setSelected(value), []);
+  const selectionHint = useMemo(() => {
+    return `${selected.length} of ${props.fields.length} columns`;
+  }, [selected, props.fields]);
 
   return (
     <Stack vertical>
-      <Button onClick={handleToggle}>{props.title}</Button>
+      <Stack>
+        <Button onClick={handleToggle}>{props.title}</Button>
+        <Tag>{selectionHint}</Tag>
+      </Stack>
       <Collapsible open={active}>
-        <FieldChoiceList fields={props.fields} />
+        <FieldChoiceList fields={props.fields} selected={selected} onFieldSelection={handleFieldSelection} />
       </Collapsible>
     </Stack>
   );

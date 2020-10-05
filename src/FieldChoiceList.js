@@ -1,10 +1,8 @@
-import React, { useState, useCallback } from "react";
+import React from "react";
 
 import { ChoiceList, Stack } from "@shopify/polaris";
 
 export default function FieldChoiceList(props) {
-  const [selected, setSelected] = useState([]);
-  const handleChange = useCallback((value) => setSelected(value), []);
   const choices = props.fields.map((field) => {
     return {
       label: field,
@@ -21,14 +19,14 @@ export default function FieldChoiceList(props) {
       <ChoiceList
         allowMultiple
         choices={firstHalf}
-        selected={selected}
-        onChange={handleChange}
+        selected={props.selected}
+        onChange={props.onFieldSelection}
       />
       <ChoiceList
         allowMultiple
         choices={secondHalf}
-        selected={selected}
-        onChange={handleChange}
+        selected={props.selected}
+        onChange={props.onFieldSelection}
       />
     </Stack>
   );
