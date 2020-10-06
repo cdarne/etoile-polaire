@@ -8,7 +8,8 @@ import {
   TextField,
   Tag,
   Link,
-  Stack
+  Stack,
+  Select
 } from "@shopify/polaris";
 
 import FieldSection from "./FieldSection";
@@ -17,11 +18,13 @@ import Fields from "./fields.js";
 export default function ReportEditPage() {
   const breadcrumbs = [{ content: "Back" }];
   const primaryAction = { content: "Save" };
-  const [name, setName] = useState("");
+  const [name, setName] = useState("New Report");
+  const [format, setFormat] = useState("excel");
   const pageTitle = useMemo(() => {
     return "New Report" + (name.length > 0 ? " - " + name : "");
   }, [name]);
   const handleNameChange = useCallback((newName) => setName(newName), []);
+  const handleFormatChange = useCallback(newFormat => setFormat(newFormat), []);
 
   return (
     <Page
@@ -35,7 +38,7 @@ export default function ReportEditPage() {
           <ReportHelp />
         </Layout.Section>
         <Layout.Section secondary>
-          <ReportSettings name={name} onChange={handleNameChange} />
+          <ReportSettings name={name} onChange={handleNameChange} format={format} onFormatChange={handleFormatChange} />
         </Layout.Section>
       </Layout>
       <PageActions primaryAction={primaryAction} />
@@ -75,20 +78,18 @@ function ReportHelp() {
 function ReportSettings(props) {
   const fileName = useMemo(() => {
     let date = new Date().toISOString().split("T")[0];
-    return date + " - " + props.name + ".xls";
-  }, [props.name]);
+    let format = {'csv': '.csv', 'excel': '.xls'}[props.format] || '.xyz'
+    return date + " - " + props.name + format;
+  }, [props.name, props.format]);
 
   return (
     <Card title="Settings">
       <Card.Section>
-        <TextField label="Name" value={props.name} onChange={props.onChange} />
+        <TextField label="Report Name" value={props.name} onChange={props.onChange} />
       </Card.Section>
-      <Card.Section title="File" actions={[{ content: "Edit" }]}>
+      <Card.Section title="File">
         <Stack vertical>
-          <p>
-            <span>Format: </span>
-            <Tag>Excel</Tag>
-          </p>
+          <FormatSelection format={props.format} onFormatChange={props.onFormatChange} />
           <p>
             <span>Filename: </span>
             <Tag>{fileName}</Tag>
@@ -100,4 +101,15 @@ function ReportSettings(props) {
       </Card.Section>
     </Card>
   );
+}
+
+function FormatSelection(props) {
+  const format = props.format;
+  const handleFormatSelect = props.onFormatChange;
+  const options = [
+    { label: "Excel", value: 'excel' },
+    { label: "CSV", value: 'csv' },
+  ];
+
+  return <Select label="Format" options={options} onChange={handleFormatSelect} value={format} />;
 }
