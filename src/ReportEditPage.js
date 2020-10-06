@@ -96,9 +96,6 @@ function ReportSettings(props) {
           </p>
         </Stack>
       </Card.Section>
-      <Card.Section title="Notification" actions={[{ content: "Edit" }]}>
-        <p>cedric.darne@gmail.com</p>
-      </Card.Section>
     </Card>
   );
 }
