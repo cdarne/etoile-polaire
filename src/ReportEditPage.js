@@ -8,7 +8,8 @@ import {
   TextField,
   Tag,
   Link,
-  Stack
+  Stack,
+  Tabs
 } from "@shopify/polaris";
 
 import FieldSection from "./FieldSection";
@@ -31,8 +32,7 @@ export default function ReportEditPage() {
     >
       <Layout>
         <Layout.Section>
-          <ReportFieldSelection />
-          <ReportHelp />
+          <ReportEditSection />
         </Layout.Section>
         <Layout.Section secondary>
           <ReportSettings name={name} onChange={handleNameChange} />
@@ -40,6 +40,41 @@ export default function ReportEditPage() {
       </Layout>
       <PageActions primaryAction={primaryAction} />
     </Page>
+  );
+}
+
+function ReportEditSection() {
+  const [selected, setSelected] = useState(0);
+  const handleSelect = useCallback((index) => setSelected(index), []);
+  const tabs = [
+    {
+      id: 'field-selection',
+      content: "Field selection",
+      panelID: 'field-selection-content',
+    },
+    {
+      id: 'field-layout',
+      content: "Layout",
+      panelID: 'layout-content',
+    },
+  ];
+
+  const contents = [
+    (<div>
+      <ReportFieldSelection />
+      <ReportHelp />
+    </div>),
+
+    (<Card title="Layout">
+    </Card>)
+  ]
+
+  return (
+    <Card>
+      <Tabs tabs={tabs} selected={selected} onSelect={handleSelect} fitted>
+        {contents[selected]}
+      </Tabs>
+    </Card>
   );
 }
 
