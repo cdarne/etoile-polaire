@@ -1,32 +1,40 @@
-import React from "react";
+import React, { useMemo } from "react";
 
 import { ChoiceList, Stack } from "@shopify/polaris";
 
-export default function FieldChoiceList(props) {
-  const choices = props.fields.map((field) => {
+function useChoices(fields) {
+  return useMemo(() => {
+    const choices = fields.map((field) => {
+      return {
+        label: field,
+        value: field,
+        helpText: "This is the " + field + " field."
+      };
+    });
+    const half = Math.ceil(choices.length / 2);
     return {
-      label: field,
-      value: field,
-      helpText: "This is the " + field + " field."
+      firstHalf: choices.splice(0, half),
+      secondHalf: choices.splice(-half)
     };
-  });
-  const half = Math.ceil(choices.length / 2);    
-  const firstHalf = choices.splice(0, half)
-  const secondHalf = choices.splice(-half)
+  }, [fields]);
+}
+
+export default function FieldChoiceList({ fields, selected, onFieldSelection }) {
+  const choices = useChoices(fields);
 
   return (
     <Stack wrap={false} distribution="fill">
       <ChoiceList
         allowMultiple
-        choices={firstHalf}
-        selected={props.selected}
-        onChange={props.onFieldSelection}
+        choices={choices.firstHalf}
+        selected={selected}
+        onChange={onFieldSelection}
       />
       <ChoiceList
         allowMultiple
-        choices={secondHalf}
-        selected={props.selected}
-        onChange={props.onFieldSelection}
+        choices={choices.secondHalf}
+        selected={selected}
+        onChange={onFieldSelection}
       />
     </Stack>
   );

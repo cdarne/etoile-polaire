@@ -34,7 +34,7 @@ export default function ReportEditPage() {
     >
       <Layout>
         <Layout.Section>
-          <ReportFieldSelection />
+          <ReportFieldSelection/>
           <ReportHelp />
         </Layout.Section>
         <Layout.Section secondary>
@@ -47,9 +47,11 @@ export default function ReportEditPage() {
 }
 
 function ReportFieldSelection() {
-  const fieldSections = Object.entries(Fields).map(([section, fields]) => (
-    <FieldSection title={section} fields={fields} key={section} />
-  ));
+  const fieldSections = useMemo(() => {
+    return Object.entries(Fields).map(([section, fields]) => (
+      <FieldSection title={section} fields={fields} key={section} />
+    ));
+  }, []);
 
   return (
     <Card title="Select Fields" sectioned>
@@ -75,21 +77,21 @@ function ReportHelp() {
   );
 }
 
-function ReportSettings(props) {
+function ReportSettings({ name, format, onChange, onFormatChange }) {
   const fileName = useMemo(() => {
-    let date = new Date().toISOString().split("T")[0];
-    let format = {'csv': '.csv', 'excel': '.xls'}[props.format] || '.xyz'
-    return date + " - " + props.name + format;
-  }, [props.name, props.format]);
+    const date = new Date().toISOString().split("T")[0];
+    const extension = { 'csv': '.csv', 'excel': '.xls' }[format] || '.xyz'
+    return date + " - " + name + extension;
+  }, [name, format]);
 
   return (
     <Card title="Settings">
       <Card.Section>
-        <TextField label="Report Name" value={props.name} onChange={props.onChange} />
+        <TextField label="Report Name" value={name} onChange={onChange} />
       </Card.Section>
       <Card.Section title="File">
         <Stack vertical>
-          <FormatSelection format={props.format} onFormatChange={props.onFormatChange} />
+          <FormatSelection format={format} onFormatChange={onFormatChange} />
           <p>
             <span>Filename: </span>
             <Tag>{fileName}</Tag>
@@ -100,13 +102,11 @@ function ReportSettings(props) {
   );
 }
 
-function FormatSelection(props) {
-  const format = props.format;
-  const handleFormatSelect = props.onFormatChange;
+function FormatSelection({ format, onFormatChange }) {
   const options = [
     { label: "Excel", value: 'excel' },
     { label: "CSV", value: 'csv' },
   ];
 
-  return <Select label="Format" options={options} onChange={handleFormatSelect} value={format} />;
+  return <Select label="Format" options={options} onChange={onFormatChange} value={format} />;
 }
