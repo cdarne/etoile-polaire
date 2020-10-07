@@ -10,15 +10,9 @@ function useToggled(initialActive) {
   return [active, handleToggle];
 }
 
-function useSelected(initialSelected) {
-  const [selected, setSelected] = useState(initialSelected);
-  const handleFieldSelection = useCallback((value) => setSelected(value), []);
-  return [selected, handleFieldSelection];
-}
-
-export default function FieldSection({title, fields}) {
+export default function FieldSection({title, fields, selected, onFieldSelected}) {
   const [active, handleToggle] = useToggled(false);
-  const [selected, handleFieldSelection] = useSelected([]);
+  
   const selectionHint = useMemo(() => {
     return `${selected.length} of ${fields.length} columns`;
   }, [selected, fields]);
@@ -30,7 +24,7 @@ export default function FieldSection({title, fields}) {
         <Tag>{selectionHint}</Tag>
       </Stack>
       <Collapsible open={active}>
-        <FieldChoiceList fields={fields} selected={selected} onFieldSelection={handleFieldSelection} />
+        <FieldChoiceList fields={fields} selected={selected} onFieldSelected={onFieldSelected} />
       </Collapsible>
     </Stack>
   );

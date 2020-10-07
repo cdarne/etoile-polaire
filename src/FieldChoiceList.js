@@ -19,7 +19,7 @@ function useChoices(fields) {
   }, [fields]);
 }
 
-export default function FieldChoiceList({ fields, selected, onFieldSelection }) {
+export default function FieldChoiceList({ fields, selected, onFieldSelected }) {
   const choices = useChoices(fields);
 
   return (
@@ -28,13 +28,13 @@ export default function FieldChoiceList({ fields, selected, onFieldSelection }) 
         allowMultiple
         choices={choices.firstHalf}
         selected={selected}
-        onChange={onFieldSelection}
+        onChange={onFieldSelected}
       />
       <ChoiceList
         allowMultiple
         choices={choices.secondHalf}
         selected={selected}
-        onChange={onFieldSelection}
+        onChange={onFieldSelected}
       />
     </Stack>
   );

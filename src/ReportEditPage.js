@@ -17,7 +17,13 @@ import Fields from "./fields.js";
 
 export default function ReportEditPage() {
   const breadcrumbs = [{ content: "Back" }];
-  const primaryAction = { content: "Save" };
+  const primaryAction = {
+    content: "Save",
+    onAction: () => {
+      const model = JSON.stringify({ name: name, format: format, selected: selected });
+      alert(`Saving report...\n${model}`);
+    }
+  };
   const [name, setName] = useState("New Report");
   const [format, setFormat] = useState("excel");
   const pageTitle = useMemo(() => {
@@ -25,6 +31,7 @@ export default function ReportEditPage() {
   }, [name]);
   const handleNameChange = useCallback((newName) => setName(newName), []);
   const handleFormatChange = useCallback(newFormat => setFormat(newFormat), []);
+  const [selected, handleFieldSelection] = useSelected(["ID", "Name", "Phone"]);
 
   return (
     <Page
@@ -34,7 +41,7 @@ export default function ReportEditPage() {
     >
       <Layout>
         <Layout.Section>
-          <ReportFieldSelection/>
+          <ReportFieldSelection selected={selected} onFieldSelected={handleFieldSelection} />
           <ReportHelp />
         </Layout.Section>
         <Layout.Section secondary>
@@ -46,12 +53,18 @@ export default function ReportEditPage() {
   );
 }
 
-function ReportFieldSelection() {
+function useSelected(initialSelected) {
+  const [selected, setSelected] = useState(initialSelected);
+  const handleFieldSelection = useCallback((value) => setSelected(value), []);
+  return [selected, handleFieldSelection];
+}
+
+function ReportFieldSelection({ selected, onFieldSelected }) {
   const fieldSections = useMemo(() => {
     return Object.entries(Fields).map(([section, fields]) => (
-      <FieldSection title={section} fields={fields} key={section} />
+      <FieldSection title={section} fields={fields} key={section} selected={selected} onFieldSelected={onFieldSelected} />
     ));
-  }, []);
+  }, [selected, onFieldSelected]);
 
   return (
     <Card title="Select Fields" sectioned>
