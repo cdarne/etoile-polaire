@@ -5,12 +5,12 @@ import enTranslations from "@shopify/polaris/locales/en.json";
 import { AppProvider } from "@shopify/polaris";
 
 // import UserPage from "./UserPage";
-import ReportEditPage from "./ReportEditPage";
+import EditReportPage from "./edit_report/EditReportPage";
 
 export default function App() {
   return (
     <AppProvider i18n={enTranslations}>
-      <ReportEditPage />
+      <EditReportPage />
     </AppProvider>
   );
 }

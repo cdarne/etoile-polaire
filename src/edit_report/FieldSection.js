@@ -1,5 +1,4 @@
 import React, { useState, useCallback, useMemo } from "react";
-
 import { Button, Stack, Collapsible, Tag } from "@shopify/polaris";
 
 import FieldChoiceList from "./FieldChoiceList";
@@ -10,9 +9,9 @@ function useToggled(initialActive) {
   return [active, handleToggle];
 }
 
-export default function FieldSection({title, fields, selected, onFieldSelected}) {
+export default function FieldSection({ title, fields, selected, onFieldSelected }) {
   const [active, handleToggle] = useToggled(false);
-  
+
   const selectionHint = useMemo(() => {
     return `${selected.length} of ${fields.length} columns`;
   }, [selected, fields]);
