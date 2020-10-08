@@ -2,13 +2,7 @@ import React, { useState, useCallback, useMemo } from "react";
 import {
   Page,
   Layout,
-  Card,
   PageActions,
-  TextField,
-  Tag,
-  Link,
-  Stack,
-  Select
 } from "@shopify/polaris";
 
 import ReportFieldSelection from "./ReportFieldSelection";
