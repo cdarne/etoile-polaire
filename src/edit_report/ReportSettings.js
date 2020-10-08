@@ -3,7 +3,8 @@ import {
   Card,
   TextField,
   Tag,
-  Stack
+  Stack,
+  Select
 } from "@shopify/polaris";
 
 export default function ReportSettings({ name, format, onChange, onFormatChange }) {
